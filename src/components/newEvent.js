@@ -9,9 +9,11 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  TextInput
+  TextInput,
 } from 'react-native';
 
+import firestore from '@react-native-firebase/firestore';
+import MainStore from './store';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Rating } from 'react-native-ratings';
@@ -26,16 +28,41 @@ class NewEvent extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      isDatePickerVisible: false
+      isDatePickerVisible: false,
+      isDatePickerVisible1: false,
+      start: "",
+      end : "",
+      note: "",
+      level: 0
     }
   }
 
+  handleConfirm = (data) => {
+    this.setState({start : data.getHours() + "." + data.getMinutes()})
+    this.setState({isDatePickerVisible: false})
+  }
+  handleConfirm1 = (data) => {
+    this.setState({end : data.getHours() + "." + data.getMinutes()})
+    this.setState({isDatePickerVisible1: false})
+  }
+
+  handleAdd = () => {
+    firestore().collection("Spor/days/" + MainStore.chosenDay)
+    .add({
+      name: MainStore.user.name,
+      time: this.state.start + " - " + this.state.end,
+      note: this.state.note,
+      level: this.state.level
+    })
+    .then(() => {
+      this.props.navigation.navigate("Events")
+    })
+  }
 
   render (){
-
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           {/* <Text style = {styles.header}>Kategoriler</Text> */}
           <View style = {styles.secondContainer}>
@@ -46,7 +73,7 @@ class NewEvent extends React.Component{
                 ratingCount={5}
                 imageSize={23}
                 // showRating
-                onFinishRating={this.ratingCompleted}
+                onFinishRating={(data) => {this.setState({level : data})}}
                 style = {{alignSelf: 'flex-start', marginTop: 12}}
               />
             </View>
@@ -57,36 +84,34 @@ class NewEvent extends React.Component{
               </View>
               
               <View style ={{flexDirection: 'row', marginTop: 12,}}>
-                <TouchableOpacity style = {styles.timeInput} onPress = {(event) => this.setState({isDatePickerVisible: true})}>
-                  <Text style = {styles.timeIText}>13.00</Text>
+                <TouchableOpacity style = {styles.timeInput} onPress = {() => this.setState({isDatePickerVisible: true})}>
+                  <Text style = {styles.timeIText}>{this.state.start}</Text>
                 </TouchableOpacity>
                 <Text style = {{color: '#2a3d70', fontSize: 16, justifyContent: 'center', alignSelf: 'center', marginHorizontal: 16}}>-</Text>
-                <TouchableOpacity style = {styles.timeInput}>
-                  <Text style = {styles.timeIText}>13.00</Text>
+                <TouchableOpacity style = {styles.timeInput} onPress = {() => this.setState({isDatePickerVisible1: true})}>
+                  <Text style = {styles.timeIText}>{this.state.end}</Text>
                 </TouchableOpacity>
                 <DateTimePickerModal
                   isVisible={this.state.isDatePickerVisible}
                   mode="time"
-                  onConfirm={this.handleConfirm}
-                  onCancel={this.hideDatePicker}
+                  onConfirm={data => this.handleConfirm(data)}
+                  onCancel={() => this.setState({isDatePickerVisible : false})}
                 />
                 <DateTimePickerModal
-                  isVisible={this.state.isDatePickerVisible}
+                  isVisible={this.state.isDatePickerVisible1}
                   mode="time"
-                  onConfirm={this.handleConfirm}
-                  onCancel={this.hideDatePicker}
+                  onConfirm={data => this.handleConfirm1(data)}
+                  onCancel={() => this.setState({isDatePickerVisible1: false})}
                 />
-
               </View>
-              
             </View>
             
             <View style= {styles.bottomContainer} style = {{flexDirection: 'row',  marginLeft: 12}}>
               <Image source = {require("./../images/not_icon.png")} />
               <Text style = {{marginLeft: 5, fontSize: 16, color : '#2a3d70',}}> Not </Text>
             </View>
-            <TextInput style = {styles.input} placeholder = "Eklemek istediklerin.."/>
-            <TouchableOpacity style = {styles.button}>
+            <TextInput style = {styles.input} placeholder = "Eklemek istediklerin.." onChangeText = {(text) => this.setState({note : text})}/>
+            <TouchableOpacity style = {styles.button} onPress = {() => this.handleAdd()}>
               <Text style = {styles.buttonText}>Kaydet</Text>
             </TouchableOpacity>
           </View>
@@ -123,7 +148,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   secondContainer: {
-    top: 150,
+    top: 130,
     borderColor: '#9b9b9b', 
     borderWidth: 0.25,
     width: 95*screenWidth/100,
@@ -137,7 +162,7 @@ const styles = StyleSheet.create({
   button: {
     width: 75*screenWidth/100,
     height: 44,
-    backgroundColor: '#81a0e7',
+    backgroundColor: '#FF9357',
     justifyContent: 'center',
     marginTop: 40,
     borderRadius: 15

@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
     marginLeft: 24,
   },
   sender: {
-    color: '#2a3d70',
+    color: '#5572b5',
     fontWeight: "600",
     fontSize: 16
   },
   mContent: {
     marginTop: 10,
-    color: '#2a3d70',
+    color: '#5572b5',
     fontSize : 14,
     fontWeight: "300"
   },

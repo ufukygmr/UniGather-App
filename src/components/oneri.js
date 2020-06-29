@@ -30,7 +30,7 @@ class OneriPage extends React.Component{
 
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           {/* <Text style = {styles.header}>Kategoriler</Text> */}
           <View style = {styles.secondContainer}>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center'
   },
   subHeader : {
-    color : '#2a3d70',
+    color : '#5572b5',
     marginTop: 15,
     fontSize: 16
   },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   button: {
     width: 75*screenWidth/100,
     height: 44,
-    backgroundColor: '#81a0e7',
+    backgroundColor: '#FF9357',
     justifyContent: 'center',
     marginTop: 40,
     borderRadius: 15

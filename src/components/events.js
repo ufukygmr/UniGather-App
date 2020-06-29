@@ -9,112 +9,128 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 
 import { Rating, AirbnbRating } from 'react-native-ratings';
-
+import {observer} from 'mobx-react';
+import firestore from '@react-native-firebase/firestore';
+import MainStore from './store';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-
+@observer
 class Events extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-
     }
   }
 
+  takeEvents = () => {
+    MainStore.events = []
+    firestore().collection("Spor/days/"+MainStore.chosenDay)
+      // .doc("ad")
+      .get()
+      .then( querySnapshot => {
+      
+          querySnapshot.forEach(documentSnapshot => {
+            MainStore.events = [
+              ...MainStore.events, 
+              documentSnapshot.data()
+            ]
+        })
+        
+      })
+  }
+
+
 
   render (){
-
+    const EventList = MainStore.events.map(event => {
+        return ((
+          <TouchableOpacity style = {styles.meduimContainer}>
+            <Image style = {styles.pp} />
+              <View style = {styles.smallContainer}>
+                <Text style = {styles.subHeader}>{event.name}</Text>
+                <Text style = {{marginLeft: 17, fontWeight: 'bold', color: '#5572b5', marginTop: 5 }}>{event.time}</Text>
+              </View>
+              <Rating
+                type='star'
+                ratingCount={5}
+                startingValue={event.level}
+                readonly = {true}
+                imageSize={14}
+                // showRating
+                isDisabled = {true}
+                style = {{marginLeft: 80}}
+              />
+          </TouchableOpacity>
+        ))
+      })
     return (
       <>
         <StatusBar barStyle = "light-content"/>
         <SafeAreaView style = {styles.container}>
           {/* <Text style = {styles.header}>Kategoriler</Text> */}
           <View style = {{flexDirection: 'row', marginTop: 30, marginLeft: screenWidth*6/100}}>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>23</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzt</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}} onPress = {()=> {
+                MainStore.chosenDay= 0
+                this.takeEvents()
+              }}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>23</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzt</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>24</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Sal</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}} onPress = {()=> {
+                MainStore.chosenDay= 1
+                this.takeEvents()
+                }}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>24</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Sal</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>25</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Car</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
+                MainStore.chosenDay=  2
+                this.takeEvents()
+              }}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>25</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Car</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>26</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Per</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
+                MainStore.chosenDay = 3
+                this.takeEvents()
+                }}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>26</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Per</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>27</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cum</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
+                MainStore.chosenDay = 4
+                this.takeEvents()
+                }}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>27</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cum</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>28</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cmts</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
+                MainStore.chosenDay = 5
+                this.takeEvents()}}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>28</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cmts</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#2a3d70'}}>29</Text>
-                <Text style = {{color:'#2a3d70', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzr</Text>
+              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
+                MainStore.chosenDay = 6
+                this.takeEvents()
+              }}>
+                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>29</Text>
+                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzr</Text>
               </TouchableOpacity>
 
           </View>
           
-          <View style = {styles.meduimContainer}>
-            <Image style = {styles.pp} />
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Text style = {styles.subHeader}>Arda Unal</Text>
-                <Text style = {{marginLeft: 17, fontWeight: 'bold', color: '#2a3d70', marginTop: 5 }}>09.00-12.00</Text>
-              </TouchableOpacity>
-              <Rating
-                type='star'
-                ratingCount={5}
-                imageSize={14}
-                // showRating
-                onFinishRating={this.ratingCompleted}
-                style = {{marginLeft: 80}}
-              />
-          </View>
-          <View style = {styles.meduimContainer}>
-            <Image style = {styles.pp} />
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Text style = {styles.subHeader}>Arda Unal</Text>
-                <Text style = {{marginLeft: 17, fontWeight: 'bold', color: '#2a3d70', marginTop: 5 }}>09.00-12.00</Text>
-              </TouchableOpacity>
-              <Rating
-                type='star'
-                ratingCount={5}
-                imageSize={14}
-                // showRating
-                onFinishRating={this.ratingCompleted}
-                style = {{marginLeft: 80}}
-              />
-          </View>
-          <View style = {styles.meduimContainer}>
-            <Image style = {styles.pp} />
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Text style = {styles.subHeader}>Arda Unal</Text>
-                <Text style = {{marginLeft: 17, fontWeight: 'bold', color: '#2a3d70', marginTop: 5 }}>09.00-12.00</Text>
-              </TouchableOpacity>
-              <Rating
-                type='star'
-                ratingCount={5}
-                imageSize={14}
-                // showRating
-                onFinishRating={this.ratingCompleted}
-                style = {{marginLeft: 80}}
-              />
-          </View>
+          
+          {EventList}
 
-
-          <TouchableOpacity style = {styles.ideaContainer}>
+          <TouchableOpacity style = {styles.ideaContainer} onPress = {() => {this.props.navigation.navigate("NewEvent")}}>
               <Image style = {styles.idea} source = {require('./../images/plus_icon.png')} />
           </TouchableOpacity>
          
@@ -129,6 +145,7 @@ const styles = StyleSheet.create({
     height : screenHeight,
     width: screenWidth,
     // alignItems: 'center'
+    backgroundColor: '#fff'
   },
   meduimContainer: {
     height: screenHeight*12/100,
@@ -156,7 +173,7 @@ const styles = StyleSheet.create({
     marginLeft: 16
   },
   subHeader : {
-    color : '#2a3d70',
+    color : '#5572b5',
     fontSize: 16,
     marginLeft: 17,
   },
@@ -170,7 +187,7 @@ const styles = StyleSheet.create({
     right: 15,
     top: 60*screenHeight/100,
     borderColor: '#81a0e7',
-    backgroundColor: '#81a0e7'
+    backgroundColor: '#FF9357'
   }
 
 });

@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
+import SignUp from './signUp';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -28,17 +29,17 @@ class Opennning extends React.Component{
 
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           <View>
             <Image source = {require("./../images/unigatherLogo.png")} style = {styles.logo}/>
             <Text style = {styles.header}>UniGather</Text>
           </View>
           <View style = {styles.authButtons}>
-            <TouchableOpacity style = {styles.signButton}>
+            <TouchableOpacity style = {styles.signButton} onPress = {()=> this.props.navigation.navigate("Kayit")}>
               <Text style = {styles.signText}>Kayit Ol</Text>
             </TouchableOpacity>
-            <TouchableOpacity style = {styles.loginButton}>
+            <TouchableOpacity style = {styles.loginButton} onPress = {() => this.props.navigation.navigate("Giris")}>
               <Text style = {styles.loginText}>Giris Yap</Text>
             </TouchableOpacity>
           </View>
@@ -52,7 +53,8 @@ const styles = StyleSheet.create({
   container : {
     height : screenHeight,
     width: screenWidth,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#fff'
   },
   logo : {
     width : 112,
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
   },
   header: {
     top: screenHeight*30/100,
-    color : '#5572b5',
+    color : '#FF9357',
     fontSize: 23,
     fontWeight: '600',
     textAlign: 'center'
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
   
   },
   signButton: {
-    backgroundColor: '#5572b5',
+    backgroundColor: '#FF9357',
     paddingVertical: 16,
     borderRadius: 16,
     marginBottom: 15
@@ -85,13 +87,13 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   },
   loginButton: {
-    borderColor: '#5572b5',
+    borderColor: '#FF9357',
     paddingVertical: 14,
     borderRadius: 20,
     borderWidth: 1.5
   },
   loginText: {
-    color: '#5572b5',
+    color: '#FF9357',
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '500'

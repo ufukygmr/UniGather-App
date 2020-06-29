@@ -9,11 +9,13 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 
-import SvgUri from 'react-native-svg-uri';
-// import testSvg from './src/images/unigatherLogo.svg';
+import MainStore from './store';
+
+import firestore from '@react-native-firebase/firestore';
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -24,8 +26,33 @@ class SignUp extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-
+      email: "",
+      password: "",
+      name: ""
     }
+  }
+
+  addUser = () => {
+    if(this.state.name == "" || this.state.email == "" || this.state.password == ""){
+      Alert.alert("Lutfen Tum Alanlari Doldurunuz")
+    }
+    else {
+      firestore().collection("Users")
+      .add({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then((res) => {
+        MainStore.user = {
+          name: this.state.name,
+          email: this.state.email,
+          password: this.state.password
+        }
+        this.props.navigation.navigate("App")})
+      .catch(err => Alert.alert("Bir hata olustu"))
+    }
+
   }
 
 
@@ -33,23 +60,25 @@ class SignUp extends React.Component{
 
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           <View>
             <Image source = {require("./../images/unigatherLogo.png")} style = {styles.logo}/>
             <Text style = {styles.header}>UniGather</Text>
           </View>
           <View style = {styles.authButtons}>
-            <TextInput  placeholder = 'Isim Soyisim' style = {styles.loginInputs}/>
-            <TextInput  placeholder = 'E-posta' style = {styles.loginInputs}/>
-            <TextInput  placeholder = 'Şifre' secureTextEntry = {true} style = {styles.loginInputs}/>
-            <TextInput  placeholder = 'Şifre Tekrar' secureTextEntry = {true} style = {styles.loginInputs}/>
-            <TouchableOpacity style = {styles.signButton}>
-              <Text style = {styles.signText}>Giris Yap</Text>
+            <TextInput  placeholder = 'Isim Soyisim' style = {styles.loginInputs} onChangeText= {(text) => this.setState({name : text})}/>
+            <TextInput  placeholder = 'E-posta' style = {styles.loginInputs} onChangeText= {(text) => this.setState({email : text})}/>
+            <TextInput  placeholder = 'Şifre' secureTextEntry = {true} style = {styles.loginInputs} onChangeText= {(text) => this.setState({password : text})}/>
+            <TextInput  placeholder = 'Şifre Tekrar' secureTextEntry = {true} style = {styles.loginInputs} />
+            <TouchableOpacity style = {styles.signButton} onPress = {() => {
+               this.addUser()
+               }}>
+              <Text style = {styles.signText}>Kayit Ol</Text>
             </TouchableOpacity>
             <View style = {{flexDirection: 'row', marginTop: 60, left: '20%'}}>
               <Text style = {styles.footerText}>Hesabın var mi? </Text>
-              <TouchableOpacity >
+              <TouchableOpacity  onPress = {() => this.props.navigation.navigate("Giris")}>
                 <Text style = {styles.footerTextLast}>   Giris Yap</Text>
               </TouchableOpacity>
             </View>
@@ -64,17 +93,18 @@ const styles = StyleSheet.create({
   container : {
     height : screenHeight,
     width: screenWidth,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#fff'
   },
   logo : {
     width : 112,
     height: 80,
-    top: 10*screenHeight/100,
+    top: 8*screenHeight/100,
     
   },
   header: {
     top: screenHeight*11/100,
-    color : '#5572b5',
+    color : '#FF9357',
     fontSize: 23,
     fontWeight: '600',
     textAlign: 'center'
@@ -85,7 +115,7 @@ const styles = StyleSheet.create({
   
   },
   signButton: {
-    backgroundColor: '#5572b5',
+    backgroundColor: '#FF9357',
     paddingVertical: 16,
     borderRadius: 16,
     marginBottom: 15,
@@ -108,16 +138,16 @@ const styles = StyleSheet.create({
   },
   unuttum : {
     fontSize: 10,
-    color: '#5572b5',
+    color: '#FF9357',
     textDecorationLine: "underline",
     textAlign: "right"
   },
   footerText: {
-    color: '#2a3d70',
+    color: '#FF9357',
     textAlign: 'center'
   },
   footerTextLast:{
-    color: '#5572b5',
+    color: '#FF9357',
     
   }
 });

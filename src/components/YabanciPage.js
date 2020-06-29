@@ -30,33 +30,35 @@ class YabanciPage extends React.Component{
   render (){
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           {/* <Text style = {styles.header}>Kategoriler</Text> */}
-          <View style = {styles.meduimContainer}>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/ingilizce_icon.png')} />
-                <Text style = {styles.subHeader}>İngilizce</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/fransizca_icon.png')} />
-                <Text style = {styles.subHeader}>Fransızca</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/ispanyolca_icon.png')} />
-                <Text style = {styles.subHeader}>İspanyolca</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/italyanca_icon.png')} />
-                <Text style = {styles.subHeader}>İtalyanca</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/almanca_icon.png')} />
-                <Text style = {styles.subHeader}>Almanca</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.ideaContainer}>
-                <Image style = {styles.idea} source = {require('./../images/idea.png')} />
-              </TouchableOpacity>      
+          <View style = {{backgroundColor: '#fff', borderRadius: 50,height: screenHeight}}>
+            <View style = {styles.meduimContainer}>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/ingilizce_icon.png')} />
+                  <Text style = {styles.subHeader}>İngilizce</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/fransizca_icon.png')} />
+                  <Text style = {styles.subHeader}>Fransızca</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/ispanyolca_icon.png')} />
+                  <Text style = {styles.subHeader}>İspanyolca</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/italyanca_icon.png')} />
+                  <Text style = {styles.subHeader}>İtalyanca</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/almanca_icon.png')} />
+                  <Text style = {styles.subHeader}>Almanca</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.ideaContainer} onPress = {() => {this.props.navigation.navigate("Öneri")}}>
+                  <Image style = {styles.idea} source = {require('./../images/idea.png')} />
+                </TouchableOpacity>      
+            </View>
           </View>
         </SafeAreaView>
       </>
@@ -68,10 +70,11 @@ const styles = StyleSheet.create({
   container : {
     height : screenHeight,
     width: screenWidth,
-    // alignItems: 'center'
+    // alignItems: 'center',
+    backgroundColor: '#cae7fd',
   },
   header: {
-    color: "#2a3d70",
+    color: "#5572b5",
     fontSize: 24, 
     top: 6*screenHeight/100,
     textAlign: 'center'
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     
   },
   subHeader : {
-    color : '#2a3d70',
+    color : '#5572b5',
     fontSize: 16,
     marginLeft: 17,
   },

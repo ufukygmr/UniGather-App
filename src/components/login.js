@@ -9,12 +9,12 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 
-import SvgUri from 'react-native-svg-uri';
-// import testSvg from './src/images/unigatherLogo.svg';
-
+import firestore from '@react-native-firebase/firestore';
+import MainStore from './store';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -24,34 +24,54 @@ class Login extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-
+      email : "",
+      password: ""
     }
   }
 
+  checkUser = () => {
+    firestore().collection("Users")
+      // .doc("ad")
+      .where("password", "==", this.state.password)
+      .where("email", "==", this.state.email)
+      .get()
+      .then( querySnapshot => {
+        if(querySnapshot.size == 1){
+          querySnapshot.forEach(documentSnapshot => {
+            MainStore.user = documentSnapshot.data()
+            Alert.alert("Giris Basarili")
+            this.props.navigation.navigate("App")
+        })}
+        else{
+          Alert.alert("Giris Basarisiz")
+        }
+        
+      })
+  }
 
   render (){
 
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           <View>
             <Image source = {require("./../images/unigatherLogo.png")} style = {styles.logo}/>
             <Text style = {styles.header}>UniGather</Text>
           </View>
           <View style = {styles.authButtons}>
-            <TextInput  placeholder = 'E-posta' style = {styles.loginInputs}/>
-            <TextInput  placeholder = 'Şifre' secureTextEntry = {true} style = {styles.loginInputs}/>
+            <TextInput  placeholder = 'E-posta' style = {styles.loginInputs} onChangeText = {text => this.setState({email: text})}/>
+            <TextInput  placeholder = 'Şifre' secureTextEntry = {true} style = {styles.loginInputs} onChangeText = {text => this.setState({password: text})}/>
             <TouchableOpacity>
               <Text style = {styles.unuttum}>Şifreni mi unuttun?</Text>
             </TouchableOpacity>
            
-            <TouchableOpacity style = {styles.signButton}>
+            <TouchableOpacity style = {styles.signButton} onPress = {() => {this.checkUser()}}>
               <Text style = {styles.signText}>Giris Yap</Text>
             </TouchableOpacity>
             <View style = {{flexDirection: 'row', marginTop: 60, left: '20%'}}>
               <Text style = {styles.footerText}>Hesabın yok mu? </Text>
-              <TouchableOpacity >
+              <TouchableOpacity onPress = {() => {this.props.navigation.navigate("Kayit")}}>
                 <Text style = {styles.footerTextLast}>    Kayit Ol</Text>
               </TouchableOpacity>
             </View>
@@ -66,28 +86,29 @@ const styles = StyleSheet.create({
   container : {
     height : screenHeight,
     width: screenWidth,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#fff'
   },
   logo : {
     width : 112,
     height: 80,
-    top: 19*screenHeight/100,
+    top: 15*screenHeight/100,
     
   },
   header: {
-    top: screenHeight*20/100,
-    color : '#5572b5',
+    top: screenHeight*17/100,
+    color : '#FF9357',
     fontSize: 23,
     fontWeight: '600',
     textAlign: 'center'
   },
   authButtons : {
     width: '75%',
-    top: screenHeight*30/100,
+    top: screenHeight*25/100,
   
   },
   signButton: {
-    backgroundColor: '#5572b5',
+    backgroundColor: '#FF9357',
     paddingVertical: 16,
     borderRadius: 16,
     marginBottom: 15,
@@ -110,16 +131,16 @@ const styles = StyleSheet.create({
   },
   unuttum : {
     fontSize: 10,
-    color: '#5572b5',
+    color: '#FF9357',
     textDecorationLine: "underline",
     textAlign: "right"
   },
   footerText: {
-    color: '#2a3d70',
+    color: '#FF9357',
     textAlign: 'center'
   },
   footerTextLast:{
-    color: '#5572b5',
+    color: '#FF9357',
     
   }
 });

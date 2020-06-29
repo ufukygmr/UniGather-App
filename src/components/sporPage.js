@@ -12,8 +12,8 @@ import {
   TextInput
 } from 'react-native';
 
-import SvgUri from 'react-native-svg-uri';
-// import testSvg from './../images/unigatherLogo.svg';
+import firestore from '@react-native-firebase/firestore';
+import MainStore from './store';
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -28,6 +28,21 @@ class SporPage extends React.Component{
     }
   }
 
+  takeEvents = () => {
+    firestore().collection("Spor/days/0")
+      // .doc("ad")
+      .get()
+      .then( querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            MainStore.events = [
+              ...MainStore.events, 
+              [documentSnapshot.data()]
+            ]
+        })
+        
+      })
+  }
+
 
   render (){
 
@@ -36,32 +51,35 @@ class SporPage extends React.Component{
         <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           {/* <Text style = {styles.header}>Kategoriler</Text> */}
-          <View style = {styles.meduimContainer}>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/yuruyus_icon.png')} />
-                <Text style = {styles.subHeader}>Yürüyüş - Koşu</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/fitness_icon.png')} />
-                <Text style = {styles.subHeader}>Fitness</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/basketbol_icon.png')} />
-                <Text style = {styles.subHeader}>Basketbol</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/voleybol_icon.png')} />
-                <Text style = {styles.subHeader}>Voleybol</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.smallContainer}>
-                <Image source = {require('./../images/tenis_icon.png')} />
-                <Text style = {styles.subHeader}>Tenis</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {styles.ideaContainer}>
-                <Image style = {styles.idea} source = {require('./../images/idea.png')} />
-              </TouchableOpacity>
-              
+          <View style = {{backgroundColor: '#fff', height: screenHeight, borderRadius: 50}}>
+            <View style = {styles.meduimContainer}>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/yuruyus_icon.png')} />
+                  <Text style = {styles.subHeader}>Yürüyüş - Koşu</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/fitness_icon.png')} />
+                  <Text style = {styles.subHeader}>Fitness</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/basketbol_icon.png')} />
+                  <Text style = {styles.subHeader}>Basketbol</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/voleybol_icon.png')} />
+                  <Text style = {styles.subHeader}>Voleybol</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {() => {this.props.navigation.navigate("Events")}}>
+                  <Image source = {require('./../images/tenis_icon.png')} />
+                  <Text style = {styles.subHeader}>Tenis</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style = {styles.ideaContainer} onPress = {() => {this.props.navigation.navigate("Öneri")}}>
+                  <Image style = {styles.idea} source = {require('./../images/idea.png')} />
+                </TouchableOpacity>
+            </View>
+
           </View>
+          
         </SafeAreaView>
       </>
     )
@@ -72,10 +90,11 @@ const styles = StyleSheet.create({
   container : {
     height : screenHeight,
     width: screenWidth,
-    // alignItems: 'center'
+    // alignItems: 'center',
+    backgroundColor: '#fff9cd'
   },
   header: {
-    color: "#2a3d70",
+    color: "#5572b5",
     fontSize: 24, 
     top: 6*screenHeight/100,
     textAlign: 'center'
@@ -111,7 +130,7 @@ const styles = StyleSheet.create({
     
   },
   subHeader : {
-    color : '#2a3d70',
+    color : '#5572b5',
     fontSize: 16,
     marginLeft: 17,
   },

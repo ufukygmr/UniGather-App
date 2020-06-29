@@ -28,21 +28,25 @@ class MainPage extends React.Component{
     }
   }
 
+  static navigationOptions = {
+    headerMode: 'none'
+  }
+
 
   render (){
 
     return (
       <>
-        <StatusBar barStyle = "light-content"/>
+        <StatusBar barStyle = "dark-content"/>
         <SafeAreaView style = {styles.container}>
           <Text style = {styles.header}>Kategoriler</Text>
           <View style = {styles.meduimContainer}>
             <View style = {styles.rows}>
-                <TouchableOpacity style = {styles.smallContainer}>
+                <TouchableOpacity style = {styles.smallContainer} onPress = {()=> {this.props.navigation.navigate("Spor")}}>
                   <Image source = {require('./../images/spor_icon.png')} />
                   <Text style = {styles.subHeader}>Spor</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.smallContainer1}>
+                <TouchableOpacity style = {styles.smallContainer1} onPress = {()=> {this.props.navigation.navigate("Yabancı Dil")}}>
                   <Image source = {require('./../images/yabancidil_icon.png')} />
                   <Text style = {styles.subHeader}>Yabancı Dil</Text>
                 </TouchableOpacity>
@@ -80,10 +84,11 @@ const styles = StyleSheet.create({
   container : {
     height : screenHeight,
     width: screenWidth,
+    backgroundColor: '#fff'
     // alignItems: 'center'
   },
   header: {
-    color: "#2a3d70",
+    color: "#5572b5",
     fontSize: 24, 
     top: 6*screenHeight/100,
     textAlign: 'center'
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
     marginLeft: 4*screenWidth/100,
   },
   subHeader : {
-    color : '#2a3d70',
+    color : '#5572b5',
     marginTop: 15,
     fontSize: 16
   }

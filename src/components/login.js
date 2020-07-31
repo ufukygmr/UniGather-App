@@ -39,7 +39,6 @@ class Login extends React.Component{
         if(querySnapshot.size == 1){
           querySnapshot.forEach(documentSnapshot => {
             MainStore.user = documentSnapshot.data()
-            Alert.alert("Giris Basarili")
             this.props.navigation.navigate("App")
         })}
         else{
@@ -69,7 +68,7 @@ class Login extends React.Component{
             <TouchableOpacity style = {styles.signButton} onPress = {() => {this.checkUser()}}>
               <Text style = {styles.signText}>Giris Yap</Text>
             </TouchableOpacity>
-            <View style = {{flexDirection: 'row', marginTop: 60, left: '20%'}}>
+            <View style = {{flexDirection: 'row',  left: '20%'}}>
               <Text style = {styles.footerText}>Hesabın yok mu? </Text>
               <TouchableOpacity onPress = {() => {this.props.navigation.navigate("Kayit")}}>
                 <Text style = {styles.footerTextLast}>    Kayit Ol</Text>
@@ -100,7 +99,9 @@ const styles = StyleSheet.create({
     color : '#FF9357',
     fontSize: 23,
     fontWeight: '600',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily : 'Quicksand',
+    fontFamily: 'Quicksand',
   },
   authButtons : {
     width: '75%',
@@ -118,29 +119,35 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: '400'
+    fontWeight: '400',
+    fontFamily: 'Quicksand',
   },
   loginInputs :{ 
     borderWidth: 1,
     borderColor: '#D8D8D8',
     borderRadius: 16,
     paddingHorizontal: 10,
+    paddingVertical: 10,
     fontSize: 16,
     marginBottom: 15,
-    height: screenHeight*5/100
+    fontFamily: 'Quicksand',
+    // height: screenHeight*5/100
   },
   unuttum : {
     fontSize: 10,
     color: '#FF9357',
     textDecorationLine: "underline",
-    textAlign: "right"
+    textAlign: "right",
+    fontFamily: 'Quicksand',
   },
   footerText: {
     color: '#FF9357',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
   },
   footerTextLast:{
     color: '#FF9357',
+    fontFamily: 'Quicksand',
     
   }
 });

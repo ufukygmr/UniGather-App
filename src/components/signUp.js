@@ -16,6 +16,7 @@ import {
 import MainStore from './store';
 
 import firestore from '@react-native-firebase/firestore';
+import CheckBox from '@react-native-community/checkbox';
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -68,15 +69,41 @@ class SignUp extends React.Component{
           </View>
           <View style = {styles.authButtons}>
             <TextInput  placeholder = 'Isim Soyisim' style = {styles.loginInputs} onChangeText= {(text) => this.setState({name : text})}/>
+            <TextInput  placeholder = 'Bolum' style = {styles.loginInputs} />
+            <TextInput  placeholder = 'Sinif' style = {styles.loginInputs} />
             <TextInput  placeholder = 'E-posta' style = {styles.loginInputs} onChangeText= {(text) => this.setState({email : text})}/>
             <TextInput  placeholder = 'Şifre' secureTextEntry = {true} style = {styles.loginInputs} onChangeText= {(text) => this.setState({password : text})}/>
             <TextInput  placeholder = 'Şifre Tekrar' secureTextEntry = {true} style = {styles.loginInputs} />
+            <View style = {{flexDirection: 'row'}}>
+             
+              <CheckBox
+                disabled={false}
+                boxType = 'square'
+                onAnimationType = 'one-stroke'
+                size = {12}
+                // onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                // value={}
+                />
+               <Text style = {{fontFamily: 'Quicksand', marginLeft: 20, marginTop: 8}}>KVKK sartlarini okudum kabul ediyorum</Text>
+            </View>
+            <View style = {{flexDirection: 'row', marginTop: 10}}>
+             
+              <CheckBox
+                disabled={false}
+                boxType = 'square'
+                onAnimationType = 'one-stroke'
+                size = {12}
+                // value={}
+                // onValueChange={(newValue) => setToggleCheckBox(newValue)}
+              />
+               <Text style = {{fontFamily: 'Quicksand', marginLeft: 20, marginTop: 8, fontSize: 12}}>Kullanici sozlesmesini okudum kabul ediyorum</Text>
+            </View>
             <TouchableOpacity style = {styles.signButton} onPress = {() => {
                this.addUser()
                }}>
               <Text style = {styles.signText}>Kayit Ol</Text>
             </TouchableOpacity>
-            <View style = {{flexDirection: 'row', marginTop: 60, left: '20%'}}>
+            <View style = {{flexDirection: 'row', left: '10%'}}>
               <Text style = {styles.footerText}>Hesabın var mi? </Text>
               <TouchableOpacity  onPress = {() => this.props.navigation.navigate("Giris")}>
                 <Text style = {styles.footerTextLast}>   Giris Yap</Text>
@@ -99,19 +126,20 @@ const styles = StyleSheet.create({
   logo : {
     width : 112,
     height: 80,
-    top: 8*screenHeight/100,
+    top: 1*screenHeight/100,
     
   },
   header: {
-    top: screenHeight*11/100,
+    top: screenHeight*2/100,
     color : '#FF9357',
     fontSize: 23,
     fontWeight: '600',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
   },
   authButtons : {
     width: '75%',
-    top: screenHeight*20/100,
+    top: screenHeight*3/100,
   
   },
   signButton: {
@@ -125,29 +153,35 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: '400'
+    fontWeight: '400',
+    fontFamily: 'Quicksand',
   },
   loginInputs :{ 
     borderWidth: 1,
     borderColor: '#D8D8D8',
     borderRadius: 16,
     paddingHorizontal: 10,
+    paddingVertical: 5,
     fontSize: 16,
     marginBottom: 15,
-    height: screenHeight*5/100
+    fontFamily: 'Quicksand',
+    // height: screenHeight*5/100
   },
   unuttum : {
     fontSize: 10,
     color: '#FF9357',
     textDecorationLine: "underline",
-    textAlign: "right"
+    textAlign: "right",
+    fontFamily: 'Quicksand',
   },
   footerText: {
     color: '#FF9357',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
   },
   footerTextLast:{
     color: '#FF9357',
+    fontFamily: 'Quicksand'
     
   }
 });

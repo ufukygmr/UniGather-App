@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
     color: "#5572b5",
     fontSize: 24, 
     top: 6*screenHeight/100,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
   },
   meduimContainer: {
     top: 13*screenHeight/100
@@ -104,8 +105,8 @@ const styles = StyleSheet.create({
 
   },
   smallContainer: { 
-    height: 175,
-    width: 175,
+    height: screenHeight*20/100,
+    width:  screenWidth*40/100,
     borderRadius: 10,
     backgroundColor: '#fdef8f',
     justifyContent: 'center',
@@ -113,53 +114,54 @@ const styles = StyleSheet.create({
     
   },
   smallContainer1 : { 
-    height: 175,
-    width: 175,
+    height: screenHeight*20/100,
+    width:  screenWidth*40/100,
     borderRadius: 10,
     backgroundColor: '#9ed3fb',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 4*screenWidth/100
+    marginLeft: 8*screenWidth/100
 
   },
   smallContainer2: { 
-    height: 175,
-    width: 175,
+    height: screenHeight*20/100,
+    width:  screenWidth*40/100,
     borderRadius: 10,
     backgroundColor: '#f7b0a8',
     justifyContent: 'center',
     alignItems: 'center'
   },
   smallContainer3 : { 
-    height: 175,
-    width: 175,
+    height: screenHeight*20/100,
+    width:  screenWidth*40/100,
     borderRadius: 10,
     backgroundColor: '#c8a3fd',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 4*screenWidth/100
+    marginLeft: 8*screenWidth/100
   },
   smallContainer4 : { 
-    height: 175,
-    width: 175,
+    height: screenHeight*20/100,
+    width:  screenWidth*40/100,
     borderRadius: 10,
     backgroundColor: '#fdef8f',
     justifyContent: 'center',
     alignItems: 'center'
   },
   smallContainer5 : { 
-    height: 175,
-    width: 175,
+    height: screenHeight*20/100,
+    width:  screenWidth*40/100,
     borderRadius: 10,
     backgroundColor: '#5df1c5',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 4*screenWidth/100,
+    marginLeft: 8*screenWidth/100,
   },
   subHeader : {
     color : '#5572b5',
     marginTop: 15,
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: 'Quicksand',
   }
 
 });

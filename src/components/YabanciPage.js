@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   meduimContainer: {
-    top: 13*screenHeight/100
+    top: 3*screenHeight/100
   },
   rows :{
     flexDirection: 'row',

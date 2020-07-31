@@ -47,16 +47,21 @@ class NewEvent extends React.Component{
   }
 
   handleAdd = () => {
-    firestore().collection("Spor/days/" + MainStore.chosenDay)
-    .add({
-      name: MainStore.user.name,
-      time: this.state.start + " - " + this.state.end,
-      note: this.state.note,
-      level: this.state.level
-    })
-    .then(() => {
-      this.props.navigation.navigate("Events")
-    })
+    if(this.state.level === 0){
+      alert("Lutfen Level Belirleyiniz")
+    }
+    else{
+      firestore().collection("Spor/days/" + MainStore.chosenDay)
+      .add({
+        name: MainStore.user.name,
+        time: this.state.start + " - " + this.state.end,
+        note: this.state.note,
+        level: this.state.level
+      })
+      .then(() => {
+        this.props.navigation.navigate("Events")
+      })
+    }
   }
 
   render (){
@@ -80,14 +85,14 @@ class NewEvent extends React.Component{
             <View style = {styles.middleContainer}>
               <View style = {{flexDirection: 'row', marginLeft: 12}}>
                 <Image source = {require("./../images/time_icon.png")} />
-                <Text style = {{fontSize: 16, marginLeft: 8, color : '#2a3d70', }}>24 Mart Sali</Text>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 16, marginLeft: 8, color : '#2a3d70', }}>{MainStore.chosenDay} Mart</Text>
               </View>
               
               <View style ={{flexDirection: 'row', marginTop: 12,}}>
                 <TouchableOpacity style = {styles.timeInput} onPress = {() => this.setState({isDatePickerVisible: true})}>
                   <Text style = {styles.timeIText}>{this.state.start}</Text>
                 </TouchableOpacity>
-                <Text style = {{color: '#2a3d70', fontSize: 16, justifyContent: 'center', alignSelf: 'center', marginHorizontal: 16}}>-</Text>
+                <Text style = {{fontFamily: 'Quicksand',color: '#2a3d70', fontSize: 16, justifyContent: 'center', alignSelf: 'center', marginHorizontal: 16}}>-</Text>
                 <TouchableOpacity style = {styles.timeInput} onPress = {() => this.setState({isDatePickerVisible1: true})}>
                   <Text style = {styles.timeIText}>{this.state.end}</Text>
                 </TouchableOpacity>
@@ -96,6 +101,7 @@ class NewEvent extends React.Component{
                   mode="time"
                   onConfirm={data => this.handleConfirm(data)}
                   onCancel={() => this.setState({isDatePickerVisible : false})}
+          
                 />
                 <DateTimePickerModal
                   isVisible={this.state.isDatePickerVisible1}
@@ -108,7 +114,7 @@ class NewEvent extends React.Component{
             
             <View style= {styles.bottomContainer} style = {{flexDirection: 'row',  marginLeft: 12}}>
               <Image source = {require("./../images/not_icon.png")} />
-              <Text style = {{marginLeft: 5, fontSize: 16, color : '#2a3d70',}}> Not </Text>
+              <Text style = {{fontFamily: 'Quicksand',marginLeft: 5, fontSize: 16, color : '#2a3d70',}}> Not </Text>
             </View>
             <TextInput style = {styles.input} placeholder = "Eklemek istediklerin.." onChangeText = {(text) => this.setState({note : text})}/>
             <TouchableOpacity style = {styles.button} onPress = {() => this.handleAdd()}>
@@ -134,6 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 16,
     marginLeft: 5,
+    fontFamily: 'Quicksand',
   },
   middleContainer: {
     marginVertical: 36
@@ -145,10 +152,11 @@ const styles = StyleSheet.create({
     borderColor: '#9b9b9b',
     borderRadius: 20,
     paddingHorizontal: 10,
-    marginTop: 10
+    marginTop: 10,
+    fontFamily: 'Quicksand',
   },
   secondContainer: {
-    top: 130,
+    top: screenHeight*3/100,
     borderColor: '#9b9b9b', 
     borderWidth: 0.25,
     width: 95*screenWidth/100,
@@ -157,7 +165,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 32,
     backgroundColor: '#fff',
-    height: 52*screenHeight/100
+    height: 60*screenHeight/100
   },
   button: {
     width: 75*screenWidth/100,
@@ -165,13 +173,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF9357',
     justifyContent: 'center',
     marginTop: 40,
-    borderRadius: 15
+    borderRadius: 15,
   },
   buttonText: {
     color: 'white',
     textAlign : 'center',
     fontSize: 16,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: 'Quicksand',
   },
   timeInput: {
     // width : '30%',
@@ -180,7 +189,8 @@ const styles = StyleSheet.create({
     paddingVertical: 11 ,
     paddingHorizontal: 51.5 ,
     borderRadius: 20,
-    // marginLeft: 20
+    // marginLeft: 20,
+    fontFamily: 'Quicksand',
   },
   timeIText: {
 

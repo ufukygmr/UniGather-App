@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 32
   },
   secondContainer: {
-    top: 150,
+    top: 100,
     borderColor: '#9b9b9b', 
     borderWidth: 0.25,
     width: 95*screenWidth/100,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     height: 44,
     backgroundColor: '#FF9357',
     justifyContent: 'center',
-    marginTop: 40,
+    marginTop: 50,
     borderRadius: 15
   },
   buttonText: {

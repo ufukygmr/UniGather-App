@@ -96,11 +96,12 @@ const styles = StyleSheet.create({
   header: {
     color: "#5572b5",
     fontSize: 24, 
-    top: 6*screenHeight/100,
-    textAlign: 'center'
+    top: 1*screenHeight/100,
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
   },
   meduimContainer: {
-    top: 13*screenHeight/100
+    top: 3*screenHeight/100
   },
   rows :{
     flexDirection: 'row',
@@ -133,6 +134,7 @@ const styles = StyleSheet.create({
     color : '#5572b5',
     fontSize: 16,
     marginLeft: 17,
+    fontFamily: 'Quicksand',
   },
   ideaContainer: {
     padding: 15,

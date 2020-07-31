@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     height : screenHeight,
     width: screenWidth,
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+
   },
   logo : {
     width : 112,
@@ -67,7 +68,9 @@ const styles = StyleSheet.create({
     color : '#FF9357',
     fontSize: 23,
     fontWeight: '600',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
+    fontWeight: 'bold'
   },
   authButtons : {
     width: '75%',
@@ -84,7 +87,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: '500'
+    fontWeight: '500',
+    fontFamily: 'Quicksand',
   },
   loginButton: {
     borderColor: '#FF9357',
@@ -96,7 +100,8 @@ const styles = StyleSheet.create({
     color: '#FF9357',
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: '500'
+    fontWeight: '500',
+    fontFamily: 'Quicksand',
   }
 });
 

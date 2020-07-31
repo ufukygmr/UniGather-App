@@ -29,9 +29,10 @@ class Events extends React.Component{
     }
   }
 
-  takeEvents = () => {
+  takeEvents = (string ) => {
     MainStore.events = []
-    firestore().collection("Spor/days/"+MainStore.chosenDay)
+
+    firestore().collection("Spor/days/"+string)
       // .doc("ad")
       .get()
       .then( querySnapshot => {
@@ -39,36 +40,156 @@ class Events extends React.Component{
           querySnapshot.forEach(documentSnapshot => {
             MainStore.events = [
               ...MainStore.events, 
-              documentSnapshot.data()
+              {
+                id : documentSnapshot.id,
+                ...documentSnapshot.data()
+              }
+              
             ]
         })
         
       })
   }
 
+  addChat = (id) => {
+    firestore().collection("Messages/"+id+"/chat")
+    .doc("empty")
+    .set({})
+    .then(function () {
+        alert("Chat is opened in Messeages")
+    })
+    .catch(err =>{
+      // alert(JSON.stringify(err))
+      alert("Bir Hata Meydana Geldi")
+    })
+
+  }
+
+  addMessage = (event) => {
+    firestore().collection("Messages")
+    .add({
+      name1 : MainStore.user.name,
+      name2: event.name,
+      level: event.level,
+      time : event.time,
+      note: event.note,
+      eventId : event.id+MainStore.user.name+event.name,
+      last: MainStore.user.name,
+      lastMessage: ""
+    })
+    .then(res => {
+      // alert("devammm")
+      MainStore.chatId = res.id
+      this.addChat(res.id)
+      
+    })
+    .catch(err => {
+      alert("olmadi")
+    })
+  }
+
+  addNewMessage = (event) => {
+    let isok = 1;
+    MainStore.chatLevel= event.level,
+    MainStore.chatNote = event.note,
+    MainStore.sender = event.name,
+    firestore().collection("Messages")
+    .get() 
+    .then( async querySnapshot => {
+      await querySnapshot.forEach(documentSnapshot => {
+        // alert(documentSnapshot.data().eventId + "  " + (event.id+MainStore.user.name+event.name))
+        if(documentSnapshot.data().eventId === event.id+MainStore.user.name+event.name || documentSnapshot.data().eventId === event.id+event.name+MainStore.user.name){
+          // alert("DEvam etmeeee")
+          MainStore.chatId = documentSnapshot.id
+          isok = 0;
+          alert("Bu Etkinlik Konusmasi Mesajlarinizda Mevcut Bulunmaktadir")
+          // return
+        }
+      })
+      if(isok){
+        // alert(isok)
+        this.addMessage(event)
+      }
+        
+    })
+    .catch(err => {
+      alert(err)
+    })
+
+   
+  }
+
+  componentDidMount() {
+    this.takeEvents('23')
+  }
+
 
 
   render (){
     const EventList = MainStore.events.map(event => {
-        return ((
-          <TouchableOpacity style = {styles.meduimContainer}>
-            <Image style = {styles.pp} />
-              <View style = {styles.smallContainer}>
-                <Text style = {styles.subHeader}>{event.name}</Text>
-                <Text style = {{marginLeft: 17, fontWeight: 'bold', color: '#5572b5', marginTop: 5 }}>{event.time}</Text>
-              </View>
-              <Rating
-                type='star'
-                ratingCount={5}
-                startingValue={event.level}
-                readonly = {true}
-                imageSize={14}
-                // showRating
-                isDisabled = {true}
-                style = {{marginLeft: 80}}
-              />
-          </TouchableOpacity>
-        ))
+        if (event.name === 'erce'){
+          return ((
+            <TouchableOpacity style = {styles.meduimContainer} onPress = {() => this.addNewMessage(event)}>
+              <Image style = {styles.pp} source = {require('./../images/erce.jpeg')} />
+                <View style = {styles.smallContainer}>
+                  <Text style = {styles.subHeader}>{event.name}</Text>
+                  <Text style = {{fontFamily: 'Quicksand',marginLeft: 17, fontWeight: 'bold', color: '#5572b5', marginTop: 5 }}>{event.time}</Text>
+                </View>
+                <Rating
+                  type='star'
+                  ratingCount={5}
+                  startingValue={event.level}
+                  readonly = {true}
+                  imageSize={14}
+                  // showRating
+                  isDisabled = {true}
+                  style = {{marginLeft: 10}}
+                />
+            </TouchableOpacity>
+          ))
+        }
+        else if (event.name === 'emre'){
+          return ((
+            <TouchableOpacity style = {styles.meduimContainer} onPress = {() => this.addNewMessage(event)}>
+              <Image style = {styles.pp} source = {require('./../images/emre.jpeg')} />
+                <View style = {styles.smallContainer}>
+                  <Text style = {styles.subHeader}>{event.name}</Text>
+                  <Text style = {{fontFamily: 'Quicksand',marginLeft: 17, fontWeight: 'bold', color: '#5572b5', marginTop: 5 }}>{event.time}</Text>
+                </View>
+                <Rating
+                  type='star'
+                  ratingCount={5}
+                  startingValue={event.level}
+                  readonly = {true}
+                  imageSize={14}
+                  // showRating
+                  isDisabled = {true}
+                  style = {{marginLeft: 30}}
+                />
+            </TouchableOpacity>
+          ))
+        }
+        else if (event.name === 'mehmet'){
+          return ((
+            <TouchableOpacity style = {styles.meduimContainer} onPress = {() => this.addNewMessage(event)}>
+              <Image style = {styles.pp} source = {require('./../images/mehmet.jpeg')} />
+                <View style = {styles.smallContainer}>
+                  <Text style = {styles.subHeader}>{event.name}</Text>
+                  <Text style = {{fontFamily: 'Quicksand',marginLeft: 17, fontWeight: 'bold', color: '#5572b5', marginTop: 5 }}>{event.time}</Text>
+                </View>
+                <Rating
+                  type='star'
+                  ratingCount={5}
+                  startingValue={event.level}
+                  readonly = {true}
+                  imageSize={14}
+                  // showRating
+                  isDisabled = {true}
+                  style = {{marginLeft: 15}}
+                />
+            </TouchableOpacity>
+          ))
+        }
       })
     return (
       <>
@@ -76,59 +197,61 @@ class Events extends React.Component{
         <SafeAreaView style = {styles.container}>
           {/* <Text style = {styles.header}>Kategoriler</Text> */}
           <View style = {{flexDirection: 'row', marginTop: 30, marginLeft: screenWidth*6/100}}>
+              <TouchableOpacity style = {{ justifyContent: 'center'}} onPress = {()=> {
+                MainStore.chosenDay= 23
+                this.takeEvents('23')
+              }}>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>23</Text>
+                <Text style = {{fontFamily: 'Quicksand',color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzt</Text>
+              </TouchableOpacity>
               <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}} onPress = {()=> {
-                MainStore.chosenDay= 0
-                this.takeEvents()
-              }}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>23</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzt</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}} onPress = {()=> {
-                MainStore.chosenDay= 1
-                this.takeEvents()
+                MainStore.chosenDay= 24
+                this.takeEvents('24')
                 }}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>24</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Sal</Text>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>24</Text>
+                <Text style = {{fontFamily: 'Quicksand',color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Sal</Text>
               </TouchableOpacity>
               <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
-                MainStore.chosenDay=  2
-                this.takeEvents()
+                MainStore.chosenDay=  25
+                this.takeEvents('25')
               }}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>25</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Car</Text>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>25</Text>
+                <Text style = {{fontFamily: 'Quicksand',olor:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Car</Text>
               </TouchableOpacity>
               <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
-                MainStore.chosenDay = 3
-                this.takeEvents()
+                MainStore.chosenDay = 26
+                this.takeEvents('26')
                 }}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>26</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Per</Text>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>26</Text>
+                <Text style = {{fontFamily: 'Quicksand',color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Per</Text>
               </TouchableOpacity>
-              <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
-                MainStore.chosenDay = 4
-                this.takeEvents()
+              <TouchableOpacity style = {{ marginLeft: 10, justifyContent: 'center'}}  onPress = {()=> {
+                MainStore.chosenDay = 27
+                this.takeEvents('27')
                 }}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>27</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cum</Text>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>27</Text>
+                <Text style = {{fontFamily: 'Quicksand',color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cum</Text>
               </TouchableOpacity>
               <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
-                MainStore.chosenDay = 5
-                this.takeEvents()}}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>28</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cmts</Text>
+                MainStore.chosenDay = 28
+                this.takeEvents('28')}}>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>28</Text>
+                <Text style = {{fontFamily: 'Quicksand',color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Cmts</Text>
               </TouchableOpacity>
               <TouchableOpacity style = {{ marginLeft: 18, justifyContent: 'center'}}  onPress = {()=> {
-                MainStore.chosenDay = 6
-                this.takeEvents()
+                MainStore.chosenDay = 29
+                this.takeEvents('29')
               }}>
-                <Text style = {{fontSize: 24, fontWeight: '400', color: '#5572b5'}}>29</Text>
-                <Text style = {{color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzr</Text>
+                <Text style = {{fontFamily: 'Quicksand',fontSize: 24, fontWeight: '400', color: '#5572b5'}}>29</Text>
+                <Text style = {{fontFamily: 'Quicksand',color:'#5572b5', fontSize: 12, fontWeight: '300', textAlign: 'center', marginTop: 6 }}>Pzr</Text>
               </TouchableOpacity>
 
           </View>
           
-          
+          <ScrollView>
           {EventList}
+          </ScrollView>
+        
 
           <TouchableOpacity style = {styles.ideaContainer} onPress = {() => {this.props.navigation.navigate("NewEvent")}}>
               <Image style = {styles.idea} source = {require('./../images/plus_icon.png')} />
@@ -161,13 +284,14 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   pp: {
-    width : 72,
-    height: 72,
+    width : 64,
+    height: 64,
     resizeMode: 'contain',
     marginLeft: 16,
     borderRadius: 500,
     backgroundColor: '#f1f1f1',
-    marginLeft: 16
+    marginLeft: 16,
+    resizeMode: 'cover'
   },
   smallContainer: { 
     marginLeft: 16
@@ -176,6 +300,7 @@ const styles = StyleSheet.create({
     color : '#5572b5',
     fontSize: 16,
     marginLeft: 17,
+    fontFamily: 'Quicksand',
   },
   ideaContainer: {
     padding: 15,

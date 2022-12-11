@@ -992,6 +992,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@react-native-community/checkbox@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/checkbox/-/checkbox-0.4.2.tgz#109214058610200fcbb97e8761cf0cba8df5abd5"
+  integrity sha512-vGetj36fOD+o3xCx8AGg56HqopetKQAWCEslD3oj8cs0xaGyRLQh3Febu13wMBOdaAQP85kITpaIET9DF4Apaw==
+
 "@react-native-community/cli-debugger-ui@^4.6.3":
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.6.3.tgz#5e93bf170a092a011f1bb0e19886f94265a4ce97"
@@ -5733,9 +5738,9 @@ punycode@^2.1.0, punycode@^2.1.1:
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
 qs@~6.5.2:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
-  integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.3.tgz#3aeeffc91967ef6e35c0e488ef46fb296ab76aad"
+  integrity sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==
 
 query-string@^6.12.0:
   version "6.12.1"
